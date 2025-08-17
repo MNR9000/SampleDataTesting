@@ -12,7 +12,8 @@
     "location": "Nerul",
     "image": "https://yourgithubpage/images/plot1.jpg",
     "description": "East-facing plot near market."
-  },{
+  },
+  {
     "title": "Plot in AshokNagar",
     "price": "₹36L",
     "location": "Ashok Nagar",
@@ -35,5 +36,10 @@
     "title": "East facing 183 Sq yds CRDA approved layout plot near Akunuru",
     "description": "CRDA approved layout.\n1KM from Proposed ORR\n600 Mtrs from proposed highway ",
     "timestamp": "2025-07-26T11:51:06.393Z"
+  },
+  {
+    "title": "fcgh",
+    "description": "thigh",
+    "timestamp": "2025-08-17T12:51:33.327Z"
   }
 ]
