@@ -3,11 +3,11 @@ import { NextResponse } from "next/server";
 
 export async function POST(req) {
   try {
-    const { title, location,size,price,description,propertyTypedescription } = await req.json();
+    const { title,image,location,size,price,description,propertyTypedescription } = await req.json();
 
-    if (!title || !description) {
+    if (!description || !location || !size || !price || !description || !propertyTypedescription) {
       return NextResponse.json(
-        { message: 'Title and description are required'},
+        { message: 'Location, Size, Price, Description, PropertyTypedescription are required'},
         { status: 400 }
       );
     }
@@ -56,6 +56,7 @@ export async function POST(req) {
       price,
       description,
       propertyTypedescription,
+      image,
       timestamp: new Date().toISOString(),
     };
     decodedContent.push(newEntry);

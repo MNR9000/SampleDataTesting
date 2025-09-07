@@ -8,6 +8,19 @@ export default function SubmitPage() {
   const [message, setMessage] = useState("")
   const [propertyType, setPropertyType] = useState("")
 
+  const fileToBase64 = (file: File): Promise<string> => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader()
+      reader.onload = () => {
+        const result = reader.result as string
+        // Remove "data:image/png;base64," prefix
+        resolve(result.split(",")[1])
+      }
+      reader.onerror = reject
+      reader.readAsDataURL(file)
+    })
+  }
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     const form = e.currentTarget
@@ -23,6 +36,11 @@ export default function SubmitPage() {
       image: formData.get("image") as File,
     }
 
+    const imageFile = formData.get("image") as File
+    let imageBase64 = ""
+    if (imageFile && imageFile.size > 0) {
+      imageBase64 = await fileToBase64(imageFile)
+    }
     try {
       const res = await fetch("/api/submit", {
         method: "POST",
@@ -34,6 +52,7 @@ export default function SubmitPage() {
           price: data.price,
           description: data.description,
           propertyType: data.propertyType,
+          image: imageBase64, // Send base64 string
           // Note: Image handling would need additional processing for file upload
         }),
       })
