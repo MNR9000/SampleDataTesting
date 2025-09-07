@@ -57,5 +57,13 @@
     "price": "2222222",
     "description": "property, amenities and features",
     "timestamp": "2025-09-07T06:57:39.436Z"
+  },
+  {
+    "title": "Hello property",
+    "location": "Here near home",
+    "size": "23445",
+    "price": "2222222",
+    "description": "property, amenities and features",
+    "timestamp": "2025-09-07T06:57:39.801Z"
   }
 ]
