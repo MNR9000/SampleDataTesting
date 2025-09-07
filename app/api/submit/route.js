@@ -5,7 +5,7 @@ export async function POST(req) {
   try {
     const { title,image,location,size,price,description,propertyTypedescription } = await req.json();
 
-    if (!description || !location || !size || !price || !description || !propertyTypedescription) {
+    if (!description || !location || !size || !price || !description) {
       return NextResponse.json(
         { message: 'Location, Size, Price, Description, PropertyTypedescription are required'},
         { status: 400 }

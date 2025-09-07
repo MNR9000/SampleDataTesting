@@ -26,20 +26,20 @@ export default function SubmitPage() {
     const form = e.currentTarget
     const formData = new FormData(form)
 
+    const imageFile = formData.get("image") as File
+    let imageBase64 = ""
+    if (imageFile && imageFile.size > 0) {
+      imageBase64 = await fileToBase64(imageFile)
+    }
+
     const data = {
       title: formData.get("title") as string,
       location: formData.get("location") as string,
       size: formData.get("size") as string,
       price: formData.get("price") as string,
       description: formData.get("description") as string,
-      propertyType: formData.get("propertyType") as string,
-      image: formData.get("image") as File,
-    }
-
-    const imageFile = formData.get("image") as File
-    let imageBase64 = ""
-    if (imageFile && imageFile.size > 0) {
-      imageBase64 = await fileToBase64(imageFile)
+      propertyType: propertyType,
+      image: imageBase64,
     }
     try {
       const res = await fetch("/api/submit", {
@@ -52,7 +52,7 @@ export default function SubmitPage() {
           price: data.price,
           description: data.description,
           propertyType: data.propertyType,
-          image: imageBase64, // Send base64 string
+          image: data.image, // Send base64 string
           // Note: Image handling would need additional processing for file upload
         }),
       })
