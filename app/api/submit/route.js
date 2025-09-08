@@ -3,11 +3,11 @@ import { NextResponse } from "next/server";
 
 export async function POST(req) {
   try {
-    const { title,image,location,size,price,description,propertyTypedescription } = await req.json();
+    const { title, image, location, size, price, description, propertyType } = await req.json();
 
     if (!description || !location || !size || !price || !description) {
       return NextResponse.json(
-        { message: 'Location, Size, Price, Description, PropertyTypedescription are required'},
+        { message: 'Location, Size, Price, Description, PropertyTypedescription are required' },
         { status: 400 }
       );
     }
@@ -38,15 +38,28 @@ export async function POST(req) {
     const sha = fileData.sha;
 
     // Step 2: Decode existing content
-    let decodedContent = []
-    try{
-      decodedContent = JSON.parse(
-      Buffer.from(fileData.content, 'base64').toString('utf-8')
-    );
-  }
-  catch(err){
-    decodedContent = [];
-  }
+    let decodedContent = [];
+
+    try {
+      if (fileData && fileData.content) {
+        // Decode existing file
+        decodedContent = JSON.parse(
+          Buffer.from(fileData.content, "base64").toString("utf-8")
+        );
+      } else {
+        // Only empty if the file truly doesn't exist
+        decodedContent = [];
+      }
+    } catch (err) {
+      console.error("Failed to parse existing JSON, starting fresh:", err);
+      decodedContent = [];
+    }
+
+    // Ensure it's always an array
+    if (!Array.isArray(decodedContent)) {
+      decodedContent = [];
+    }
+
 
     // Step 3: Append new entry
     const newEntry = {
@@ -55,7 +68,7 @@ export async function POST(req) {
       size,
       price,
       description,
-      propertyTypedescription,
+      propertyType,
       image,
       timestamp: new Date().toISOString(),
     };
@@ -85,7 +98,7 @@ export async function POST(req) {
 
     if (!commitResponse.ok) {
       return NextResponse.json(
-        { message: `Failed to commit changes to GitHub`},
+        { message: `Failed to commit changes to GitHub` },
         { status: 500 }
       );
     }
